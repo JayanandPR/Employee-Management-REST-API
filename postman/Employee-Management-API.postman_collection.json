@@ -1,0 +1,262 @@
+{
+  "info": {
+    "_postman_id": "7f5b8a6e-4c71-4d1a-9f21-employee-management-api",
+    "name": "Employee Management API",
+    "description": "Postman collection for the Employee Management REST API built with Spring Boot and MySQL. Set baseUrl to the running API URL. Requests use sample data only; no credentials are included.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create employee",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Rahul Sharma\",\n  \"email\": \"rahul@example.com\",\n  \"department\": \"Engineering\",\n  \"salary\": 45000.0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/employees",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees"
+          ]
+        },
+        "description": "Creates an employee. Expected status: 201 Created. Use a unique email address if you have already run this request."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 201 Created', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "if (pm.response.code === 201) {",
+              "    const body = pm.response.json();",
+              "    if (body.id !== undefined) {",
+              "        pm.collectionVariables.set('employeeId', body.id);",
+              "    }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get all employees (default pagination)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees"
+          ]
+        },
+        "description": "Returns the first page using the API defaults (page=0, size=10, sortBy=id, direction=asc)."
+      }
+    },
+    {
+      "name": "Get employees (pagination and sorting)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees?page=0&size=5&sortBy=name&direction=asc",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            },
+            {
+              "key": "sortBy",
+              "value": "name"
+            },
+            {
+              "key": "direction",
+              "value": "asc"
+            }
+          ]
+        },
+        "description": "Returns up to five employees sorted by name in ascending order."
+      }
+    },
+    {
+      "name": "Get employee by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees/{{employeeId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "{{employeeId}}"
+          ]
+        },
+        "description": "Uses the employeeId collection variable, automatically set after a successful Create employee request."
+      }
+    },
+    {
+      "name": "Update employee",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Rahul Sharma\",\n  \"email\": \"rahul@example.com\",\n  \"department\": \"Platform Engineering\",\n  \"salary\": 50000.0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/employees/{{employeeId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "{{employeeId}}"
+          ]
+        },
+        "description": "Updates all employee fields. Use an email not already assigned to another employee."
+      }
+    },
+    {
+      "name": "Delete employee",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees/{{employeeId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "{{employeeId}}"
+          ]
+        },
+        "description": "Deletes the employee selected by employeeId. Expected status: 204 No Content."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 204 No Content', function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Validation error (blank name)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \" \",\n  \"email\": \"validation-test@example.com\",\n  \"department\": \"Engineering\",\n  \"salary\": 45000.0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/employees",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees"
+          ]
+        },
+        "description": "Demonstrates request validation. Expected status: 400 Bad Request."
+      }
+    },
+    {
+      "name": "Not found (ID 999999)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees/999999",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees",
+            "999999"
+          ]
+        },
+        "description": "Demonstrates missing-employee handling. Expected status: 404 if employee ID 999999 does not exist."
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "employeeId",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}
