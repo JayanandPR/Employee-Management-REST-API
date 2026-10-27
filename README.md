@@ -16,7 +16,7 @@ A RESTful Employee Management API built with Java, Spring Boot, Spring Data JPA,
 
 ## Technology Stack
 
-- Java 17 or newer, compatible with the selected Spring Boot version
+- Java 25
 - Spring Boot
 - Spring Web
 - Spring Data JPA
