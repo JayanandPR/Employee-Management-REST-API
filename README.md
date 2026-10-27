@@ -134,3 +134,20 @@ On Windows PowerShell:
 ```powershell
 .\mvnw.cmd test
 ```
+
+## Postman Collection
+
+A Postman collection is included in the `postman/` folder to help you test the Employee Management REST API endpoints.
+
+**Collection file:** `postman/Employee-Management-API.postman_collection.json`
+
+### How to Import
+
+1. Open Postman.
+2. Click **Import**.
+3. Select the `Employee-Management-API.postman_collection.json` file from the project's `postman/` folder.
+4. Start the Spring Boot application and ensure your MySQL database is running.
+5. Run the requests to test the API endpoints.
+
+The collection includes requests for creating, retrieving, updating, and deleting employees, along with pagination, sorting, and error-handling scenarios.
+
